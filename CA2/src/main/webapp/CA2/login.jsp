@@ -27,7 +27,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>SPTravel</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 <link rel="icon" type="image/jpg" href="https://dbcsingapore.org/wp-content/uploads/2021/12/SP.jpg"><!-- Website Icon -->
 <style>
 	#main {
@@ -115,7 +115,7 @@
 			out.print("<div class='errMessage'><p>You need to login to access that page!</p></div>");
 		}
 	%>
-	<form action="verifyUser.jsp">
+	<form action="<%=request.getContextPath()%>/userLogin" method="post">
 		<div>
 			<label for="email">Email</label>
 		</div>

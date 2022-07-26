@@ -14,20 +14,24 @@ public class userDB {
 			// Step 3: Establish connection to URL
 			conn = DriverManager.getConnection(connURL);
 			// Step 4: Create Statement object
-			String sqlStr = "SELECT * FROM users WHERE userid = ? AND password = ?";
+			String sqlStr = "SELECT * FROM users WHERE email = ? AND password = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 			// Step 5: Execute SQL Command
 			ResultSet rs = pstmt.executeQuery();
 			// Step 6: Process Result
+			String username = null;
+			String role = null;
+			String mail = null;
 			while(rs.next()) {
-				String username = rs.getString("username");
-				String role = rs.getString("role");
-				user.setEmail(email);
-				user.setUsername(username);
-				user.setRole(role);
+				mail = rs.getString("email");
+				username = rs.getString("username");
+				role = rs.getString("role");
 			}
+			user.setEmail(mail);
+			user.setUsername(username);
+			user.setRole(role);
 		}catch (Exception e) {
 			System.out.println("Error :" + e);
 		}finally {
