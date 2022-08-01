@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.*" %>
+<%@ page import="regionsDBAccess.*" %>
 <%
+	ArrayList<Region> regionList = new ArrayList<Region>();
+	regionDB rdb = new regionDB();
+	regionList = rdb.getRegions();
 	String errCode = request.getParameter("errCode");
 	String email = (String) session.getAttribute("email");
 	boolean duplicate = false;
@@ -102,7 +107,7 @@
 		out.print("<div class='errMessage'><p>This email is already in use!</p></div>");
 	}
 %>
-<form action="createUser.jsp">
+<form action="<%=request.getContextPath()%>/createUserServlet" method="post">
 	<label for="email">Email</label>
 	<div>
 		<input id="email" type="text" name="email" required><br>
@@ -114,6 +119,17 @@
 	<label for="password">Password</label>
 	<div>
 		<input id="passowrd" type="password" name="password" required><br>
+	</div>
+	<label for="password">Region</label>
+	<div>
+		<select name="region">
+			<%
+			for(int i = 0; i < regionList.size(); i++){
+				String name = regionList.get(i).getName();
+				out.print("<option value='" + name + "'>" + name + "</option>");
+			}
+				%>
+		</select>
 	</div>
 	<div class="registerButton">
 		<button type="submit">Register</button>

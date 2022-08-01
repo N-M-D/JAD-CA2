@@ -5,7 +5,14 @@ public class User {
 	private String username;
 	private String pasword;
 	private String role;
+	private String region;
 	
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
 	public String getEmail() {
 		return email;
 	}

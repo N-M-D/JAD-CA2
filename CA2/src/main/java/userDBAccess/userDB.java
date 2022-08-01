@@ -1,5 +1,6 @@
 package userDBAccess;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class userDB {
 
@@ -42,7 +43,7 @@ public class userDB {
 	}//End verifyUser
 	
 	//Create New User
-	public int createUser(String email, String username, String password, String role) throws SQLException {
+	public int createUser(String email, String username, String password, String role, String region) throws SQLException {
 		int rows = 0;
 		try {
 			// Step1: Load JDBC Driver
@@ -54,12 +55,13 @@ public class userDB {
 			// Step 4: Create Statement object
 			// Step 5: Execute SQL Command
 			//out.print(sqlStr);
-			String sqlStr = "INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)";
+			String sqlStr = "INSERT INTO users (email, username, password, role, region) VALUES (?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, email);
 			pstmt.setString(2, username);
 			pstmt.setString(3, password);
 			pstmt.setString(4, role);
+			pstmt.setString(5, region);
 			//pstmt.setString(2, password);
 			rows = pstmt.executeUpdate();
 			// Step 6: Process Result
@@ -113,7 +115,7 @@ public class userDB {
 	}//End Read User
 	
 	//Update User
-	public int updateUser(String email, String username, String password) throws SQLException {
+	public int updateUser(String email, String username, String password, String region) throws SQLException {
 		int rows = 0;
 		try {
 			// Step1: Load JDBC Driver
@@ -124,11 +126,12 @@ public class userDB {
 			Connection conn = DriverManager.getConnection(connURL);
 			// Step 4: Create Statement object
 			// Step 5: Execute SQL Command
-			String sqlStr = "UPDATE USERS SET username = ?, password = ? WHERE email = ?";
+			String sqlStr = "UPDATE USERS SET username = ?, password = ?, region = ? WHERE email = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);	
 			pstmt.setString(1, username);
 			pstmt.setString(2, password);
 			pstmt.setString(3, email);
+			pstmt.setString(4, region);
 			//pstmt.setString(2, password);
 			rows = pstmt.executeUpdate();
 			// Step 6: Process Result
@@ -171,4 +174,33 @@ public class userDB {
 		}
 		return rows;
 	}//End Delete User
+	
+	public ArrayList<User> getAllCustomers() throws SQLException {
+		ArrayList<User> userList = new ArrayList<User>();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			// Step 4: Create Statement object
+			// Step 5: Execute SQL Command
+			String sqlStr = "SELECT * FROM users WHERE role='guest'";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setEmail(rs.getString("email"));
+				user.setUsername(rs.getString("username"));
+				user.setRegion(rs.getString("region"));
+				userList.add(user);
+			}
+			// Step 7: Close connection
+			conn.close();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return userList;
+	}
 }//End Class

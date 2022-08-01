@@ -43,8 +43,9 @@ public class createUserServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String role = "guest";
+		String region = request.getParameter("region");
 		try {
-			int rows = udb.createUser(email, username, password, role);
+			int rows = udb.createUser(email, username, password, role, region);
 			if(rows > 0) {
 				response.sendRedirect("login");
 			}else {

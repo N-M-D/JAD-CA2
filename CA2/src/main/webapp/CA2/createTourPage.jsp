@@ -8,7 +8,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 <style>
 #Main {
 	margin: 15px;
@@ -30,7 +30,7 @@
 	<div class="main">
 	<center>
 		<h1>Create Tour</h1>
-		<form method="post" action="../createTour">
+		<form action="<%=request.getContextPath()%>/createTour" method="post">
 			<table border="0">
 				<tr>
 					<td>Name of Tour</td>
@@ -94,7 +94,7 @@
 	</center>
 	<center>
 		<h1>Edit Tour</h1>
-		<form method="post" action="../updateTour">
+		<form action="<%=request.getContextPath()%>/updateTour" method="post">
 			<label for="tourName">Choose a tour:</label> <select
 				id="selectTourName" name="selectTourName"></select>
 			<%
@@ -132,7 +132,7 @@
 			<table border="0">
 				<tr>
 					<td>Name of Tour</td>
-					<td><input type="text" name="tourName" size="50"></td>
+					<td><input type="text" name="tourName" size="50" ></td>
 				</tr>
 				<tr>
 					<td>Type of Tour</td>
@@ -173,10 +173,10 @@
 				</tr>
 				<tr>
 					<td>Photo of Tour</td>
-					<td><input type="file" name="tourPicture" size="50" /></td>
+					<td><input type="text" name="tourPicture" size="50" /></td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="Save" name="button"></td>
+					<td><input type="submit" value="save" name="button"></td>
 					<td><input type="submit" value="delete" name ="button"></td>
 				</tr>
 			</table>

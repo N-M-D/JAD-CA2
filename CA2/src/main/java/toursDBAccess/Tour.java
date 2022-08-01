@@ -4,11 +4,18 @@ public class Tour {
 	private int tourID;
 	private String tourName;
 	private String tourDescription;
-	private String tourDeatiled;
+	private String tourDetailed;
 	private float tourCost;
 	private int tourSlots;
 	private int tourType;
+	private String tourImg;
 	
+	public String getTourImg() {
+		return tourImg;
+	}
+	public void setTourImg(String tourImg) {
+		this.tourImg = tourImg;
+	}
 	public int getTourID() {
 		return tourID;
 	}
@@ -28,10 +35,10 @@ public class Tour {
 		this.tourDescription = tourDescription;
 	}
 	public String getTourDeatiled() {
-		return tourDeatiled;
+		return tourDetailed;
 	}
-	public void setTourDeatiled(String tourDeatiled) {
-		this.tourDeatiled = tourDeatiled;
+	public void setTourDeatiled(String tourDetailed) {
+		this.tourDetailed = tourDetailed;
 	}
 	public float getTourCost() {
 		return tourCost;
