@@ -13,7 +13,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 <link rel="icon" type="image/jpg" href="https://dbcsingapore.org/wp-content/uploads/2021/12/SP.jpg"><!-- Website Icon -->
 <style>
 #main {
@@ -144,8 +144,8 @@ if(role.equals("admin")){
 	out.print("<h1>Admin Controls</h1>");
 	out.print("</div>");
 	out.print("<ul class='adminControls'>");	
-	out.print("<li><a href='createTourPage.jsp'>Tour Manager</a></li>");
-	out.print("<li><a href='createNewAdminPage.jsp'>Create New Admin User</a></li>");
+	out.print("<li><a href='" + request.getContextPath() + "/CA2/createTourPage.jsp'>Tour Manager</a></li>");
+	out.print("<li><a href='" + request.getContextPath() + "/CA2/createNewAdminPage.jsp'>Create New Admin User</a></li>");
 	out.print("</ul>");
 	
 }

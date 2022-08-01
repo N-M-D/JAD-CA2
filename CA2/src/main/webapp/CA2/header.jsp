@@ -7,9 +7,9 @@
 		<h3>SPTravel</h3>
 	</div>
 	<ul>
-		<li><a href="index.jsp">Home</a>
-		<li><a href="tour.jsp">Tours</a></li>
-		<li><a href="user.jsp">User</a></li>
+		<li><a href="<%=request.getContextPath()%>/CA2/index.jsp">Home</a>
+		<li><a href="<%=request.getContextPath()%>/CA2/tour.jsp">Tours</a></li>
+		<li><a href="<%=request.getContextPath()%>/CA2/user.jsp">User</a></li>
 		<!-- <li id = "admin"></li> -->
 	</ul>
 </nav>

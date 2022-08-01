@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import userDBAccess.User;
 import userDBAccess.userDB;
@@ -42,6 +43,7 @@ public class userLogin extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		userDB db = new userDB();
+		HttpSession session = request.getSession();
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		try {
@@ -52,6 +54,9 @@ public class userLogin extends HttpServlet {
 				rd.forward(request, response);
 			}else {
 				String url = "CA2/index.jsp";
+				session.setAttribute("email", user.getEmail());
+				session.setAttribute("role", user.getRole());
+				session.setAttribute("username", user.getUsername());
 				RequestDispatcher rd = request.getRequestDispatcher(url);
 				rd.forward(request, response);
 			}
