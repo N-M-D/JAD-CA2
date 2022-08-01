@@ -20,11 +20,11 @@
 	color: white;
 	margin: 0 auto;
 	margin-top: 2em;
+	margin-bottom: 7em;
 	padding: 1em;
 	padding-bottom: 2em;
 	width: 60vw;
 	background-color: #222;
-	max-height: 75vh;
 	text-align: center;
 	border-width: 4px solid white;
 }

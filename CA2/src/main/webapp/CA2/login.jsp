@@ -34,6 +34,7 @@
 		color: white;
 		margin: 0 auto;
 		margin-top: 2em;
+		margin-bottom: 2em;
 		padding: 1rem;
 		width: 60vw;
 		background-color: #222;
