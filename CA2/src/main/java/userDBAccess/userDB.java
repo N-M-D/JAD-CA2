@@ -203,4 +203,34 @@ public class userDB {
 		}
 		return userList;
 	}
+	
+	public ArrayList<User> getCustomersByRegion(String region) throws SQLException {
+		ArrayList<User> userList = new ArrayList<User>();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			// Step 4: Create Statement object
+			// Step 5: Execute SQL Command
+			String sqlStr = "SELECT * FROM users WHERE region=?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setString(1, region);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setEmail(rs.getString("email"));
+				user.setUsername(rs.getString("username"));
+				user.setRegion(rs.getString("region"));
+				userList.add(user);
+			}
+			// Step 7: Close connection
+			conn.close();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return userList;
+	}
 }//End Class

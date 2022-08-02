@@ -2,10 +2,19 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*"%>
 <%@ page import="userDBAccess.*" %>
+<%@ page import="regionsDBAccess.*" %>
 <%
 	ArrayList<User> userList = new ArrayList<User>();
+	ArrayList<Region> regionList = new ArrayList<Region>();
 	userDB udb = new userDB();
-	userList = udb.getAllCustomers();
+	regionDB rdb = new regionDB();
+	String region = request.getParameter("region");
+	regionList = rdb.getRegions();
+	if(region != null){
+		userList = udb.getCustomersByRegion(region);
+	}else{
+		userList = udb.getAllCustomers();
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -14,6 +23,8 @@
 <title>SPTravel</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 <style>
+
+
 
 .main {
 	display: grid;
@@ -39,20 +50,58 @@
 	}
 
 .userCard:hover {
-	 box-shadow: 0px 0px 10px white
+	 box-shadow: 0px 0px 10px white;
 }
+
+.userDetails{
+	list-style: none;
+}
+
+.location:before {
+	content: '\1F3E1'; 
+	margin-left: -20px; 
+	margin-right: 10px; 
+}
+
+.userCardLink {
+	text-decoration: none;
+}
+
+.filter {
+	display: flex;
+	width: 100%;
+	grid-column: 1 / span 2;
+	justify-content: space-around;
+}
+
+.regionSelector {
+	background-color: white;
+	padding: 1em;
+	margin: 1em;
+	
+}
+
 </style>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <h1>View All Customers</h1>
 <div class="main">
+<div class='filter'>
+	<a href='<%=request.getContextPath()%>/CA2/viewCustomers.jsp'><div class='regionSelector'>All</div></a>
+<%
+	for(int i = 0; i < regionList.size(); i++){
+		out.print("<a href='" + request.getContextPath() + "/CA2/viewCustomers.jsp?region=" + regionList.get(i).getName() +"'><div class='regionSelector'>" + regionList.get(i).getName() + "</div></a>");
+	}
+%>
+</div>
 <%
 	for(int i = 0; i < userList.size(); i++){
-		out.print("<a href='" + request.getContextPath()+"/CA2/customerDetails?email=" + userList.get(i).getEmail() + "'><div class='userCard'>");
+		out.print("<a href='" + request.getContextPath()+"/CA2/customerDetails.jsp?email=" + userList.get(i).getEmail() + "' class='userCardLink'><div class='userCard'>");
 		out.print("<h1>" + userList.get(i).getUsername() + "</h1>");
-		out.print("<p>" + userList.get(i).getEmail() + "</p><br>");
-		out.print("<p>" + userList.get(i).getRegion() + "</p></div></a>");
+		out.print("<ul class='userDetails'>");
+		out.print("<li class='email'>" + userList.get(i).getEmail() + "</li>");
+		out.print("<li class='location'>" + userList.get(i).getRegion() + "</li></ul></div></a>");
 	}
 %>
 </div>
