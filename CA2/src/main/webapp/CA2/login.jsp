@@ -116,7 +116,8 @@
 			out.print("<div class='errMessage'><p>You need to login to access that page!</p></div>");
 		}
 	%>
-	<form action="<%=request.getContextPath()%>/userLogin" method="post">
+	
+
 		<div>
 			<label for="email">Email</label>
 		</div>

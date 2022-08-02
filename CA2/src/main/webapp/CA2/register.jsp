@@ -23,7 +23,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>SPTravel</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 <link rel="icon" type="image/jpg" href="https://dbcsingapore.org/wp-content/uploads/2021/12/SP.jpg"><!-- Website Icon -->
 <style>
 	#main {

@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,11 +48,14 @@ public class createUserServlet extends HttpServlet {
 		String region = request.getParameter("region");
 		try {
 			int rows = udb.createUser(email, username, password, role, region);
+			String url = "";
 			if(rows > 0) {
-				response.sendRedirect("login");
+				url="CA2/login.jsp?code=AccCreated";
 			}else {
-				response.sendRedirect("register?errCode=dup");
+				url="CA2/register.jsp?errCode=fail";
 			}
+			RequestDispatcher rd = request.getRequestDispatcher(url);
+			rd.forward(request, response);
 		}catch(Exception e) {
 			System.out.println(e);
 		}
