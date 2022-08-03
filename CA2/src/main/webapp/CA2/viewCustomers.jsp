@@ -97,7 +97,7 @@
 </div>
 <%
 	for(int i = 0; i < userList.size(); i++){
-		out.print("<a href='" + request.getContextPath()+"/CA2/customerDetails.jsp?email=" + userList.get(i).getEmail() + "' class='userCardLink'><div class='userCard'>");
+		out.print("<a href='" + request.getContextPath()+"/CA2/viewCustomerDetails.jsp?email=" + userList.get(i).getEmail() + "' class='userCardLink'><div class='userCard'>");
 		out.print("<h1>" + userList.get(i).getUsername() + "</h1>");
 		out.print("<ul class='userDetails'>");
 		out.print("<li class='email'>" + userList.get(i).getEmail() + "</li>");

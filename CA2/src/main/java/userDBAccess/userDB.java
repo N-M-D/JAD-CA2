@@ -43,7 +43,7 @@ public class userDB {
 	}//End verifyUser
 	
 	//Create New User
-	public int createUser(String email, String username, String password, String role, String region) throws SQLException {
+	public int createUser(String email, String username, String password, String role, String region, String pfp) throws SQLException {
 		int rows = 0;
 		try {
 			// Step1: Load JDBC Driver
@@ -55,13 +55,14 @@ public class userDB {
 			// Step 4: Create Statement object
 			// Step 5: Execute SQL Command
 			//out.print(sqlStr);
-			String sqlStr = "INSERT INTO users (email, username, password, role, region) VALUES (?, ?, ?, ?, ?)";
+			String sqlStr = "INSERT INTO users (email, username, password, role, region, pfp) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, email);
 			pstmt.setString(2, username);
 			pstmt.setString(3, password);
 			pstmt.setString(4, role);
 			pstmt.setString(5, region);
+			pstmt.setString(6, pfp);
 			//pstmt.setString(2, password);
 			rows = pstmt.executeUpdate();
 			// Step 6: Process Result
@@ -100,10 +101,16 @@ public class userDB {
 				String username = rs.getString("username");
 				String role = rs.getString("role");
 				String password = rs.getString("password");
+				String region = rs.getString("region");
+				String pfp = rs.getString("pfp");
+				int points = rs.getInt("points");
 				user.setEmail(email);
 				user.setUsername(username);
 				user.setPasword(password);
 				user.setRole(role);
+				user.setRegion(region);
+				user.setPfp(pfp);
+				user.setPoints(points);
 			}
 			// Step 6: Process Result
 			// Step 7: Close connection
@@ -115,7 +122,7 @@ public class userDB {
 	}//End Read User
 	
 	//Update User
-	public int updateUser(String email, String username, String password, String region) throws SQLException {
+	public int updateUser(String email, String username, String password, String region, String pfp) throws SQLException {
 		int rows = 0;
 		try {
 			// Step1: Load JDBC Driver
@@ -132,6 +139,7 @@ public class userDB {
 			pstmt.setString(2, password);
 			pstmt.setString(3, email);
 			pstmt.setString(4, region);
+			pstmt.setString(5, pfp);
 			//pstmt.setString(2, password);
 			rows = pstmt.executeUpdate();
 			// Step 6: Process Result
@@ -159,14 +167,8 @@ public class userDB {
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, email);
 			//pstmt.setString(2, password);
-			boolean success = !pstmt.execute();
+			rows = pstmt.executeUpdate();
 			// Step 6: Process Result
-			if(success){
-				System.out.println("Delete Successful");
-				//response.sendRedirect("index.jsp");
-			}else{
-				System.out.println("Error with update");
-			}
 			// Step 7: Close connection
 			conn.close();
 		}catch(Exception e) {
@@ -194,6 +196,7 @@ public class userDB {
 				user.setEmail(rs.getString("email"));
 				user.setUsername(rs.getString("username"));
 				user.setRegion(rs.getString("region"));
+				user.setPfp(rs.getString("pfp"));
 				userList.add(user);
 			}
 			// Step 7: Close connection
@@ -203,6 +206,8 @@ public class userDB {
 		}
 		return userList;
 	}
+	
+//----------Filter Users--------------------------
 	
 	public ArrayList<User> getCustomersByRegion(String region) throws SQLException {
 		ArrayList<User> userList = new ArrayList<User>();
@@ -224,6 +229,7 @@ public class userDB {
 				user.setEmail(rs.getString("email"));
 				user.setUsername(rs.getString("username"));
 				user.setRegion(rs.getString("region"));
+				user.setPfp(rs.getString("pfp"));
 				userList.add(user);
 			}
 			// Step 7: Close connection
@@ -232,5 +238,61 @@ public class userDB {
 			System.out.println(e);
 		}
 		return userList;
+	}
+	
+	public ArrayList<User> getCustomersByTour(int tourid) throws SQLException {
+		ArrayList<User> userList = new ArrayList<User>();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			// Step 4: Create Statement object
+			// Step 5: Execute SQL Command
+			String sqlStr = "SELECT * FROM `tour-users` WHERE tourid=?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setInt(1, tourid);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setEmail(rs.getString("email"));
+				user.setUsername(rs.getString("username"));
+				user.setRegion(rs.getString("region"));
+				user.setPfp(rs.getString("pfp"));
+				user.setPoints(rs.getInt("points"));
+				userList.add(user);
+			}
+			// Step 7: Close connection
+			conn.close();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return userList;
+	}
+	
+	public boolean updatePoints(String email, int points) throws SQLException {
+		boolean success = false;
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			// Step 4: Create Statement object
+			// Step 5: Execute SQL Command
+			String sqlStr = "UPDATE users SET points = ? WHERE email = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setInt(1, points);
+			pstmt.setString(2, email);
+			success = pstmt.execute();
+			// Step 7: Close connection
+			conn.close();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return success;
 	}
 }//End Class

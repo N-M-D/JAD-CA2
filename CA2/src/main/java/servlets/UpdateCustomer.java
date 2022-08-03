@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import userDBAccess.userDB;
 
 /**
- * Servlet implementation class createUserServlet
+ * Servlet implementation class UpdateCustomer
  */
-@WebServlet("/createUserServlet")
-public class createUserServlet extends HttpServlet {
+@WebServlet("/UpdateCustomer")
+public class UpdateCustomer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public createUserServlet() {
+    public UpdateCustomer() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,29 +40,31 @@ public class createUserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		userDB udb = new userDB();
+		String button = request.getParameter("button");
 		String email = request.getParameter("email");
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String role = "guest";
-		String region = request.getParameter("region");
-		String pfp = request.getParameter("pfp");
+		int points = Integer.parseInt(request.getParameter("points"));
+		userDB db = new userDB();
+		boolean success = false;
+		String url = "/CA2/viewCustomerDetails.jsp";
 		try {
-			int rows = udb.createUser(email, username, password, role, region, pfp);
-			String url = "";
-			if(rows > 0) {
-				url="CA2/login.jsp?code=AccCreated";
-			}else {
-				url="CA2/register.jsp?errCode=fail";
+			if(button.equals("edit")) {
+				success = db.updatePoints(email, points);
+				
+			}else if(button.equals("delete")) {
+				int rows = db.deleteUser(email);
+				if(rows > 0) {
+					url = "/CA2/viewCustomers.jsp";
+					System.out.println("Delete user");
+				}
+				
 			}
-			RequestDispatcher rd = request.getRequestDispatcher(url);
-			rd.forward(request, response);
+			
 		}catch(Exception e) {
 			System.out.println(e);
 		}
 		
-		
-		
+		RequestDispatcher rd = request.getRequestDispatcher(url);
+		rd.forward(request, response);
 	}
 
 }

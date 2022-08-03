@@ -1,12 +1,10 @@
 package toursDBAccess;
 
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class TourDB {
@@ -19,11 +17,6 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			// Step 4: Create Statement object
-			Statement stmt = conn.createStatement();
-			// Step 5: Execute SQL Command
-			//String sqlStr = "SELECT * FROM member WHERE name=? and password=?";
-			//out.print(sqlStr);
 			String sqlStr = "INSERT INTO tour (tourName, tourDescription, tourDetailed, tourCost, tourSlots, tourType, tourPicture) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, tourName);
@@ -66,11 +59,6 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			// Step 4: Create Statement object
-			Statement stmt = conn.createStatement();
-			// Step 5: Execute SQL Command
-			//String sqlStr = "SELECT * FROM member WHERE name=? and password=?";
-			//out.print(sqlStr);
 			String sqlStr = "SELECT * FROM tour";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			//pstmt.setString(2, password);
@@ -81,6 +69,10 @@ public class TourDB {
 				tour.setTourName(rs.getString("tourName"));
 				tour.setTourDescription(rs.getString("tourDescription"));
 				tour.setTourDeatiled(rs.getString("tourDetailed"));
+				tour.setTourCost(rs.getFloat("tourCost"));
+				tour.setTourSlots(rs.getInt("tourSlots"));
+				tour.setTourType(rs.getInt("tourType"));
+				tour.setTourImg(rs.getString("tourPicture"));
 				tourList.add(tour);
 			}
 			// Step 7: Close connection
@@ -101,11 +93,6 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			// Step 4: Create Statement object
-			Statement stmt = conn.createStatement();
-			// Step 5: Execute SQL Command
-			//String sqlStr = "SELECT * FROM member WHERE name=? and password=?";
-			//out.print(sqlStr);
 			String sqlStr = "SELECT * FROM tour WHERE tourType=?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setInt(1, catid);
@@ -136,11 +123,6 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			// Step 4: Create Statement object
-			Statement stmt = conn.createStatement();
-			// Step 5: Execute SQL Command
-			//String sqlStr = "SELECT * FROM member WHERE name=? and password=?";
-			//out.print(sqlStr);
 			String sqlStr = "UPDATE tour SET tourName=?, tourDescription=?, tourDetailed=?, tourCost=?, tourSlots=?, tourType=?, tourPicture=? WHERE tourID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, tourName);
@@ -170,11 +152,6 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			// Step 4: Create Statement object
-			Statement stmt = conn.createStatement();
-			// Step 5: Execute SQL Command
-			//String sqlStr = "SELECT * FROM member WHERE name=? and password=?";
-			//out.print(sqlStr);
 			String sqlStr = "DELETE FROM tour WHERE tourID = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setInt(1, tourID);
@@ -187,6 +164,41 @@ public class TourDB {
 			System.out.println(e);
 		}
 		return success;
+	}
+	
+	public ArrayList<Tour> getToursByUser(String email) {
+		ArrayList<Tour> tourList = new ArrayList<Tour>();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			String sqlStr = "SELECT * FROM `tour-users` tu, tour t WHERE tu.useremail=? AND t.tourID = tu.tourid";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setString(1, email);
+			ResultSet rs = pstmt.executeQuery();
+			// Step 6: Process Result
+			while(rs.next()) {
+				Tour tour = new Tour();
+				tour.setTourName(rs.getString("tourName"));
+				tour.setTourDescription(rs.getString("tourDescription"));
+				tour.setTourDeatiled(rs.getString("tourDetailed"));
+				tour.setTourCost(rs.getFloat("tourCost"));
+				tour.setTourSlots(rs.getInt("tourSlots"));
+				tour.setTourType(rs.getInt("tourType"));
+				tour.setTourImg(rs.getString("tourPicture"));
+				tour.setDate(rs.getString("date"));
+				tourList.add(tour);
+			}
+			// Step 7: Close connection
+			conn.close();
+		} 
+		catch (Exception e) {
+			System.out.println("Error :" + e);
+		}
+		return tourList;
 	}
 }
 

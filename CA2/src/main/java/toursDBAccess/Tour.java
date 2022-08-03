@@ -9,7 +9,14 @@ public class Tour {
 	private int tourSlots;
 	private int tourType;
 	private String tourImg;
+	private String date;
 	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 	public String getTourImg() {
 		return tourImg;
 	}
