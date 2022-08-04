@@ -25,7 +25,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>SPTravel</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 </head>
 <body>
 <%@ include file="header.jsp"%>

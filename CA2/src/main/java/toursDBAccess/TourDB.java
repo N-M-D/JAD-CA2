@@ -200,5 +200,39 @@ public class TourDB {
 		}
 		return tourList;
 	}
+	
+	public ArrayList<Tour> getToursBySales() {
+		ArrayList<Tour> tourList = new ArrayList<Tour>();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			String sqlStr = "select t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture, count(tu.useremail) as 'filled' from tour t inner join `tour-users` tu on t.tourID = tu.tourid group by t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			ResultSet rs = pstmt.executeQuery();
+			// Step 6: Process Result
+			while(rs.next()) {
+				Tour tour = new Tour();
+				tour.setTourName(rs.getString("tourName"));
+				tour.setTourDescription(rs.getString("tourDescription"));
+				tour.setTourDeatiled(rs.getString("tourDetailed"));
+				tour.setTourCost(rs.getFloat("tourCost"));
+				tour.setTourSlots(rs.getInt("tourSlots"));
+				tour.setTourType(rs.getInt("tourType"));
+				tour.setTourImg(rs.getString("tourPicture"));
+				tour.setSlotsFilled(rs.getInt("filled"));
+				tourList.add(tour);
+			}
+			// Step 7: Close connection
+			conn.close();
+		} 
+		catch (Exception e) {
+			System.out.println("Error :" + e);
+		}
+		return tourList;
+	}
 }
 

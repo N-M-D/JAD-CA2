@@ -4,6 +4,15 @@
 <%@ page import="userDBAccess.*" %>
 <%@ page import="regionsDBAccess.*" %>
 <%
+	String role = (String)session.getAttribute("role");
+	if(role != null){
+		if(role != "admin"){
+			String url = request.getContextPath() + "/CA2/index.jsp";
+			response.sendRedirect(url);
+		}
+	}
+%>
+<%
 	ArrayList<User> userList = new ArrayList<User>();
 	ArrayList<Region> regionList = new ArrayList<Region>();
 	userDB udb = new userDB();

@@ -48,17 +48,17 @@ img {
 	<h2>Why Choose Us?</h2>
 	<div class="pics">
 		<div id="money">
-			<a href="https://unsplash.com/@alschim?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"><img src="./img/money.jpg"></a>
+			<a href="https://unsplash.com/@alschim?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"><img src="<%=request.getContextPath()%>/CA2/img/money.jpg"></a>
 			<h2>Affordable</h2>
 			<p>All our tours are reasonably priced, and we frequently give away offers and discounts for our loyal customers.</p>
 		</div>
 		<div id="food">
-			<img src="./img/food.jpg">
+			<img src="<%=request.getContextPath()%>/CA2/img/food.jpg">
 			<h2>Food</h2>
 			<p>We provide everyone with food during our tours. Our meals are chosen only from the highest quality vendors, and are sure to give everyone the finest taste of our culture.</p>
 		</div>
 		<div id="safety">
-			<img src="./img/safety.jpg">
+			<img src="<%=request.getContextPath()%>/CA2/img/safety.jpg">
 			<h2>
 			Safety
 			</h2>

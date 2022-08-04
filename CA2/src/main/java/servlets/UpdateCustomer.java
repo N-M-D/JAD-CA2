@@ -55,6 +55,8 @@ public class UpdateCustomer extends HttpServlet {
 				if(rows > 0) {
 					url = "/CA2/viewCustomers.jsp";
 					System.out.println("Delete user");
+				}else {
+					
 				}
 				
 			}

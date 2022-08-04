@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%
+	String role = (String)session.getAttribute("role");
+	if(role != null){
+		if(role != "admin"){
+			String url = request.getContextPath() + "/CA2/index.jsp";
+			response.sendRedirect(url);
+		}
+	}
+%>
+<%
 	String errCode = request.getParameter("errCode");
 	String userRole = (String) session.getAttribute("role");
 	boolean duplicate = false;
@@ -18,7 +27,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>SPTravel</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 <link rel="icon" type="image/jpg" href="https://dbcsingapore.org/wp-content/uploads/2021/12/SP.jpg"><!-- Website Icon -->
 <style>
 	#main {

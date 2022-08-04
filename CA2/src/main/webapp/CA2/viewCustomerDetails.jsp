@@ -4,6 +4,15 @@
 <%@ page import="toursDBAccess.*" %>
 <%@ page import="java.util.*" %>
 <%
+	String role = (String)session.getAttribute("role");
+	if(role != null){
+		if(role != "admin"){
+			String url = request.getContextPath() + "/CA2/index.jsp";
+			response.sendRedirect(url);
+		}
+	}
+%>
+<%
 	String email = request.getParameter("email");
 	if(email == null){
 		String url = request.getContextPath() + "/CA2/viewCustomers.jsp";

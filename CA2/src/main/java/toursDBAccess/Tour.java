@@ -10,7 +10,14 @@ public class Tour {
 	private int tourType;
 	private String tourImg;
 	private String date;
+	public int slotsFilled;
 	
+	public int getSlotsFilled() {
+		return slotsFilled;
+	}
+	public void setSlotsFilled(int slotsFilled) {
+		this.slotsFilled = slotsFilled;
+	}
 	public String getDate() {
 		return date;
 	}

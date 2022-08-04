@@ -135,7 +135,7 @@ button:hover {
 		<button type="submit">Edit</button>
 	</div>
 </form>
-<a href="logOut.jsp"><button id="logOut">Log Out</button></a>
+<a href="<%=request.getContextPath()%>/CA2/logOut.jsp"><button id="logOut">Log Out</button></a>
 <button id="deleteAcc">Delete Account</button>
 <%
 if(role != null){
