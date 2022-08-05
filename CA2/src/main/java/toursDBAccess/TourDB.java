@@ -31,15 +31,6 @@ public class TourDB {
 			// Step 6: Process Result
 			// Step 7: Close connection
 			conn.close();
-			//if(verified){
-			//	String userRole = "adminUser";
-			//	session.setAttribute("sessUserID", loginid);
-			//	session.setAttribute("sessUserRole", userRole);
-			//	session.setAttribute("loginStatus", "success");
-			//	response.sendRedirect("displayMember.jsp?userId=" + loginid + "&userRole=" + userRole	);
-			//}else{
-			//	response.sendRedirect("login.jsp?errCode=invalidLogin");
-			//}
 		} 
 		catch(SQLIntegrityConstraintViolationException e){
 			System.out.println("Error :");
@@ -82,6 +73,38 @@ public class TourDB {
 			System.out.println("Error :" + e);
 		}
 		return tourList;
+	}
+	
+	public Tour getTour(int tourID) {
+		Tour tour = new Tour();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			String sqlStr = "SELECT * FROM tour WHERE tourID=?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setInt(1, tourID);
+			ResultSet rs = pstmt.executeQuery();
+			// Step 6: Process Result
+			while(rs.next()) {
+				tour.setTourName(rs.getString("tourName"));
+				tour.setTourDescription(rs.getString("tourDescription"));
+				tour.setTourDeatiled(rs.getString("tourDetailed"));
+				tour.setTourCost(rs.getFloat("tourCost"));
+				tour.setTourSlots(rs.getInt("tourSlots"));
+				tour.setTourType(rs.getInt("tourType"));
+				tour.setTourImg(rs.getString("tourPicture"));
+			}
+			// Step 7: Close connection
+			conn.close();
+		} 
+		catch (Exception e) {
+			System.out.println("Error :" + e);
+		}
+		return tour;
 	}
 	
 	public ArrayList<Tour> getToursByCategory(int catid) {
@@ -210,12 +233,13 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			String sqlStr = "select t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture, count(tu.useremail) as 'filled' from tour t inner join `tour-users` tu on t.tourID = tu.tourid group by t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture";
+			String sqlStr = "select t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture, count(tu.useremail) as 'filled' from tour t inner join `tour-users` tu on t.tourID = tu.tourid group by t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture order by count(tu.useremail) desc";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			ResultSet rs = pstmt.executeQuery();
 			// Step 6: Process Result
 			while(rs.next()) {
 				Tour tour = new Tour();
+				tour.setTourID(rs.getInt("tourID"));
 				tour.setTourName(rs.getString("tourName"));
 				tour.setTourDescription(rs.getString("tourDescription"));
 				tour.setTourDeatiled(rs.getString("tourDetailed"));

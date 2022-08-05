@@ -8,6 +8,29 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
+<style>
+.main{
+	background-color: #222;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	width: 60vw;
+	margin: 0 auto;
+}
+.tourCard {
+	background-color: #222;
+	color: white;
+	margin: 1em;
+	padding: 0.5em;
+	transition: 150ms ease-in-out;
+	text-decoration: none;
+}
+.tourCard:hover{
+	box-shadow: 0 0 1em white;
+}
+.tourPic{
+	max-width: 100%;
+}
+</style>
 </head>
 <body>
 <%@ include file="header.jsp" %>
@@ -20,9 +43,17 @@
 	for(int i = 0; i < toursList.size(); i++){
 		Tour tour = new Tour();
 		tour = toursList.get(i);
+		String tourPic = tour.getTourImg();
+		if (tourPic == null){
+			tourPic = request.getContextPath() + "/CA2/img/default_tour_img.jpg";
+		}
+		out.print("<a class='tourCard' href='" + request.getContextPath() +"/CA2/viewTourDetailsAdmin.jsp?tourID=" + tour.getTourID() + "'>");
+		out.print("<img src='" + tourPic + "' class='tourPic'>");
 		out.print("<h2>" + tour.getTourName() + "</h2>");
 		out.print("<p>" + tour.getTourDescription() + "</p>");
-		out.print("<p>Slots Filled:" + tour.getSlotsFilled() + "/" + tour.getTourSlots());
+		out.print("<p>$" + tour.getTourCost() + "</p>");
+		out.print("<p>Slots Filled:" + tour.getSlotsFilled() + "/" + tour.getTourSlots() + "</p> ");
+		out.print("</a>");
 	}
 %>
 </div>

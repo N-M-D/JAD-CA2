@@ -32,4 +32,29 @@ public class CategoryDB {
 		}
 		return categoryList;
 	}
+	
+	public Category getCategory(int catid) {
+		Category category = new Category();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			Connection conn = DriverManager.getConnection(connURL);
+			String sqlStr = "SELECT * FROM categories WHERE id=?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setInt(1, catid);
+			ResultSet rs = pstmt.executeQuery();
+			// Step 6: Process Result
+			while(rs.next()) {
+				category.setId(rs.getInt("id"));
+				category.setName(rs.getString("name"));
+			}
+			// Step 7: Close connection
+			conn.close();
+		} 
+		catch (Exception e) {
+			System.out.println("Error :" + e);
+		}
+		return category;
+	}
 }

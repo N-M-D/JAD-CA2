@@ -251,7 +251,7 @@ public class userDB {
 			Connection conn = DriverManager.getConnection(connURL);
 			// Step 4: Create Statement object
 			// Step 5: Execute SQL Command
-			String sqlStr = "SELECT * FROM `tour-users` WHERE tourid=?";
+			String sqlStr = "SELECT * FROM `tour-users` tu INNER JOIN users u ON tu.useremail = u.email WHERE tourid=?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setInt(1, tourid);
 			ResultSet rs = pstmt.executeQuery();
