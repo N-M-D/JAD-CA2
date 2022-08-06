@@ -58,6 +58,7 @@ public class TourDB {
 			// Step 6: Process Result
 			while(rs.next()) {
 				Tour tour = new Tour();
+				tour.setTourID(rs.getInt("tourID"));
 				tour.setTourName(rs.getString("tourName"));
 				tour.setTourDescription(rs.getString("tourDescription"));
 				tour.setTourDeatiled(rs.getString("tourDetailed"));
@@ -92,6 +93,7 @@ public class TourDB {
 			ResultSet rs = pstmt.executeQuery();
 			// Step 6: Process Result
 			while(rs.next()) {
+				tour.setTourID(rs.getInt("tourID"));
 				tour.setTourName(rs.getString("tourName"));
 				tour.setTourDescription(rs.getString("tourDescription"));
 				tour.setTourDeatiled(rs.getString("tourDetailed"));
