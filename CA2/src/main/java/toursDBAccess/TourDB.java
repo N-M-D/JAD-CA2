@@ -211,6 +211,7 @@ public class TourDB {
 			// Step 6: Process Result
 			while(rs.next()) {
 				Tour tour = new Tour();
+				tour.setTourID(rs.getInt("tourID"));
 				tour.setTourName(rs.getString("tourName"));
 				tour.setTourDescription(rs.getString("tourDescription"));
 				tour.setTourDeatiled(rs.getString("tourDetailed"));
@@ -240,7 +241,7 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			String sqlStr = "select t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture, t.tourDate, count(tu.useremail) as 'filled' from tour t inner join `tour-users` tu on t.tourID = tu.tourid group by t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture order by count(tu.useremail) desc";
+			String sqlStr = "select t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture, t.tourDate, count(tu.useremail) as 'filled' from tour t left join `tour-users` tu on t.tourID = tu.tourid group by t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture order by count(tu.useremail) desc";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			ResultSet rs = pstmt.executeQuery();
 			// Step 6: Process Result

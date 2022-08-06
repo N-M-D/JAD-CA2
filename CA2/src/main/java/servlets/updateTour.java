@@ -56,22 +56,22 @@ public class updateTour extends HttpServlet {
 			String tourDate = request.getParameter("tourDate");
 			int rows = db.updateTour(tourID, tourName, tourDescription, tourDetailed, tourCost, tourSlots, category, tourPicture, tourDate);
 			if(rows == 0) {
-				String url = "CA2/createTourPage.jsp?code=fail";
+				String url = "CA2/viewTourDetailsAdmin.jsp?code=fail";
 				RequestDispatcher rd = request.getRequestDispatcher(url);
 				rd.forward(request, response);
 			}else {
-				String url = "CA2/createTourPage.jsp?code=success";
+				String url = "CA2/viewTourDetailsAdmin.jsp?code=success";
 				RequestDispatcher rd = request.getRequestDispatcher(url);
 				rd.forward(request, response);
 			}
 		}else if(button.equals("delete")) {
 			boolean success = db.deleteTour(tourID);
 			if(success) {
-				String url = "CA2/createTourPage.jsp?code=success";
+				String url = "CA2/viewTourSales.jsp?code=success";
 				RequestDispatcher rd = request.getRequestDispatcher(url);
 				rd.forward(request, response);
 			}else {
-				String url = "CA2/createTourPage.jsp?code=fail";
+				String url = "CA2/viewTourSales.jsp?code=fail";
 				RequestDispatcher rd = request.getRequestDispatcher(url);
 				rd.forward(request, response);
 			}

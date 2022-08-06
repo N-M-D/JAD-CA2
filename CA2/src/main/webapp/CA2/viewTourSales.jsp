@@ -15,7 +15,9 @@
 	grid-template-columns: 1fr 1fr;
 	width: 60vw;
 	margin: 0 auto;
+	margin-bottom: 10em;
 }
+
 .tourCard {
 	background-color: #222;
 	color: white;
@@ -24,11 +26,23 @@
 	transition: 150ms ease-in-out;
 	text-decoration: none;
 }
+
 .tourCard:hover{
-	box-shadow: 0 0 1em white;
+	box-shadow: 0 0 1em black;
 }
+
 .tourPic{
 	max-width: 100%;
+}
+
+.newTour {
+	grid-column: 1 / 2 span;
+	text-align: center;
+	text-decoration: none;
+	padding: 1em;
+	background-color: white;
+	margin: 1em;
+	color: black;
 }
 </style>
 </head>
@@ -36,6 +50,7 @@
 <%@ include file="header.jsp" %>
 <h1>View Tour Sales</h1>
 <div class="main">
+<a href="<%=request.getContextPath()%>/CA2/createTourPage.jsp" class="newTour">Create New Tour</a>
 <%
 	TourDB tdb = new TourDB();
 	ArrayList<Tour> toursList = new ArrayList<Tour>();
@@ -44,7 +59,7 @@
 		Tour tour = new Tour();
 		tour = toursList.get(i);
 		String tourPic = tour.getTourImg();
-		if (tourPic == null){
+		if (tourPic == null || tourPic.equals("")){
 			tourPic = request.getContextPath() + "/CA2/img/default_tour_img.jpg";
 		}
 		out.print("<a class='tourCard' href='" + request.getContextPath() +"/CA2/viewTourDetailsAdmin.jsp?tourID=" + tour.getTourID() + "'>");

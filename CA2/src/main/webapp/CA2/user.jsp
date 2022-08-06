@@ -144,7 +144,7 @@ if(role.equals("admin")){
 	out.print("<h1>Admin Controls</h1>");
 	out.print("</div>");
 	out.print("<ul class='adminControls'>");	
-	out.print("<li><a href='" + request.getContextPath() + "/CA2/createTourPage.jsp'>Tour Manager</a></li>");
+	out.print("<li><a href='" + request.getContextPath() + "/CA2/viewTourSales.jsp'>Tour Manager</a></li>");
 	out.print("<li><a href='" + request.getContextPath() + "/CA2/createNewAdminPage.jsp'>Create New Admin User</a></li>");
 	out.print("<li><a href='" + request.getContextPath() + "/CA2/viewCustomers.jsp'>View Customers</a></li>");
 	out.print("</ul>");

@@ -6,7 +6,7 @@
 <%
 	String role = (String)session.getAttribute("role");
 	if(role != null){
-		if(role != "admin"){
+		if(!role.equals("admin")){
 			String url = request.getContextPath() + "/CA2/index.jsp";
 			response.sendRedirect(url);
 		}
@@ -29,8 +29,6 @@
 <title>SP Travel</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/CA2/style.css">
 <style>
-
-
 .main{
 	display: grid;
 	grid-template-columns: 1fr 3fr;
@@ -43,16 +41,13 @@
 .pfp {
 	justify-content: center;
 	display: flex; 
+	align-items: center;
 }
 
 .userpfp{
 	max-height: 12em;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.main div {
-	border: 1px solid black
 }
 
 .userTransactions {
@@ -64,8 +59,10 @@
 	padding: 1em;
 }
 
-div h1 {
-	border-bottom: 1px solid white
+.userTransactions h1 {
+	border-bottom: 1px solid white;
+	border-top: 1px solid white;
+	padding: 1em;
 }
 
 .tourPic {
@@ -75,11 +72,21 @@ div h1 {
 .userTour {
 	display: flex;
 	justify-content:space-between;
+	border-bottom: 1px solid black;
+	margin: 1em;
+	text-decoration: none;
+	color: white;
+	padding: 1em;
+}
+
+.userTour:hover{
+	box-shadow: 0px 0px 1em black;
 }
 
 .tourDetails {
 	display: grid;
 	margin-left: 1em;
+	
 }
 
 .tourLeft {
@@ -109,6 +116,7 @@ div h1 {
 	padding: 0.5em 1em;
 	margin-inline: 1em;
 }
+
 </style>
 </head>
 <body>
@@ -128,9 +136,9 @@ div h1 {
 <%
 	out.print("<h1>" + user.getUsername() + "</h1>");
 	out.print("<div class='userControl'>");
-	out.print("<div class='userControlLeft'><p>" + user.getEmail() + "</p>");
-	out.print("<p>" + user.getRegion() + "</p>");
-	out.print("<form action='" + request.getContextPath() + "/UpdateCustomer?email=" + email + "' method='POST'><input name='points' type='number' value='" + user.getPoints() + "'></div>");
+	out.print("<div class='userControlLeft'><p>Email: " + user.getEmail() + "</p>");
+	out.print("<p>Region: " + user.getRegion() + "</p>");
+	out.print("<form action='" + request.getContextPath() + "/UpdateCustomer?email=" + email + "' method='POST'><label>Points: </label><input name='points' type='number' value='" + user.getPoints() + "'></div>");
 	out.print("<div class='userControlRight'><div class='buttonGroup'><input type='submit' name='button' value='edit'><input type='submit' name='button' value='delete'></div></div></div>");
 %>
 </div>
@@ -147,11 +155,11 @@ div h1 {
 		if (tourPic == null){
 			tourPic = request.getContextPath() + "/CA2/img/default_tour_img.jpg";
 		}
-		out.print("<div class='userTour'>");
+		out.print("<a class='userTour' href='" + request.getContextPath() +"/CA2/viewTourDetailsAdmin.jsp?tourID=" + tour.getTourID() +"'>");
 		out.print("<div class='tourLeft'><img src='" + tourPic + "' class='tourPic'>");
 		out.print("<div class='tourDetails'><h2>" + tour.getTourName() + "</h2>");
 		out.print("<p>&#128181;$" + tour.getTourCost() + "</p></div></div>");
-		out.print("<div class='date'><h4>Date</h4>" + tour.getDate() + "</div></div>");
+		out.print("<div class='date'><h4>Date</h4>" + tour.getDate() + "</div></a>");
 	}
 %>
 </div>

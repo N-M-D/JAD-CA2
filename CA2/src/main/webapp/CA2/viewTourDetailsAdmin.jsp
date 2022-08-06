@@ -59,6 +59,23 @@
   border-bottom: 1px solid white
 }
 
+form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.5em;
+}
+
+form input, textarea, select {
+  padding: 0.5em;
+  width: 90%;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-around;
+  grid-column: 1 / 2 span;
+}
+
 .usersList {
   grid-column: 1 / 2 span;
 }
@@ -78,6 +95,41 @@
   border-radius: 100vmax;
 }
 
+.user:hover {
+  box-shadow: 0px 0px 1em black;
+}
+
+.editButton {
+  background-color: blue;
+  color: white;
+  text-transform: capitalize;
+  font-weight: bold;
+  border-radius: 1em;
+  border: 1px solid blue;
+  transition: 150ms ease-in-out;
+  margin: 0 1em;
+}
+
+.editButton:hover {
+  cursor: pointer;
+  background-color: darkblue;
+  border-color: darkblue;
+  color: white;
+}
+
+.deleteButton {
+  background-color: red;
+  border: 1px solid red;
+  border-radius: 1em;
+  text-transform: capitalize;
+  color: white;
+  font-weight: bold;
+}
+
+.deleteButton:hover {
+  background-color: maroon;
+  border-color: maroon;
+}
 </style>
 </head>
 <body>
@@ -143,19 +195,17 @@
 				<label>Tour Picture: </label>
 			</div>
 			<div>
-				<input type="url" name="tourImg" value='<%= tour.getTourImg() %>'>
+				<input type="url" name="tourPicture" value='<%= tour.getTourImg() %>'>
 			</div>
 			<div>
 				<label>Tour Date</label>
 			</div>
 			<div>
-				<input type="date" name="tourDate">
+				<input type="date" name="tourDate" value="<%= tour.getTourDate() %>">
 			</div>
-			<div class="formGroup">
-				<input type="submit" name="button" value="edit">
-			</div>
-			<div>
-				<input type="submit" name="button" value="delete">
+			<div class="buttonGroup">
+				<input type="submit" name="button" value="edit" class="editButton">
+				<input type="submit" name="button" value="delete" class="deleteButton">
 			</div>
 		</form>
 	</div>
