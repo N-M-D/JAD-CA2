@@ -25,9 +25,9 @@
 	userList = udb.getCustomersByTour(tourID);
 	
 	int catid = tour.getTourType();
-	Category cat = new Category();
 	CategoryDB catdb = new CategoryDB();
-	cat = catdb.getCategory(catid);
+	ArrayList<Category> categoryList = new ArrayList<Category>();
+	categoryList = catdb.getCategories();
 %>
 <!DOCTYPE html>
 <html>
@@ -88,11 +88,76 @@
 		<img class="tourImg" src="<%=imgLink%>"/>
 	</div>
 	<div class="tourDetails">
-		<h2><%=tour.getTourName() %></h2>
-		<p>$<%=tour.getTourCost() %></p>
-		<p>Category: <%=cat.getName() %></p>
-		<p><%=tour.getTourDeatiled() %></p>
-		<p>Capacity: <%=userList.size()%>/<%=tour.getTourSlots() %></p>
+		<form action="<%=request.getContextPath()%>/updateTour?tourID=<%= tourid %>" method="post">
+			<div>
+				<label>Tour Name: </label>
+			</div>
+			<div>
+				<input name='tourName' value='<%=tour.getTourName() %>' type='text'>
+			</div>	
+				
+			<div>
+				<label>Tour Price($): </label>
+			</div>
+			<div>
+				<input value='<%=tour.getTourCost() %>' name='tourCost' type='text'>
+			</div>
+			<div>
+				<label>Tour Description: </label>
+			</div>
+			<div>
+				<input type='text' value='<%=tour.getTourDescription() %>' name='tourDescription'>
+			</div>
+			<div>
+				<label>Tour Detailed: </label>
+			</div>
+			<div>
+				<textarea name='tourDetailed'><%=tour.getTourDeatiled() %></textarea>
+			</div>
+			<div>
+				<label>Tour Slots: </label>
+			</div>
+			<div>
+				<input type='number' name='tourSlots' value='<%=tour.getTourSlots()%>'>
+			</div>
+			<div>
+				<label>Tour Category: </label>
+			</div>
+			<div>
+				<select name='category'>
+				<%
+					for(int i = 0; i < categoryList.size(); i++){
+						Category cat = new Category();
+						cat = categoryList.get(i);
+						if(cat.getId() == catid){
+							out.print("<option value='" + cat.getId() + "' selected>" + cat.getName() + "</option>");
+						}else{
+							out.print("<option value='" + cat.getId() + "'>" + cat.getName() + "</option>");
+						}
+						
+					}
+				%>
+				</select>
+			</div>
+			<div>
+				<label>Tour Picture: </label>
+			</div>
+			<div>
+				<input type="url" name="tourImg" value='<%= tour.getTourImg() %>'>
+			</div>
+			<div>
+				<label>Tour Date</label>
+			</div>
+			<div>
+				<input type="date" name="tourDate">
+			</div>
+			<div class="formGroup">
+				<input type="submit" name="button" value="edit">
+			</div>
+			<div>
+				<input type="submit" name="button" value="delete">
+			</div>
+		</form>
 	</div>
 	<div class="usersList">
 		<h1>Users</h1>

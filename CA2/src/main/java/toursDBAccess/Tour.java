@@ -11,7 +11,14 @@ public class Tour {
 	private String tourImg;
 	private String date;
 	public int slotsFilled;
+	public String tourDate;
 	
+	public String getTourDate() {
+		return tourDate;
+	}
+	public void setTourDate(String tourDate) {
+		this.tourDate = tourDate;
+	}
 	public int getSlotsFilled() {
 		return slotsFilled;
 	}

@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import toursDBAccess.TourDB;
 
-import java.sql.*;
-
 /**
  * Servlet implementation class createTour
  */
@@ -50,7 +48,8 @@ public class createTour extends HttpServlet {
 		float tourCost = Float.parseFloat(request.getParameter("tourCost"));
 		int tourSlots = Integer.parseInt(request.getParameter("tourSlots"));
 		String tourPicture = request.getParameter("tourPicture");
-		int rows = db.createTour(tourName, tourDescription, tourDetailed, tourCost, tourSlots, category, tourPicture);
+		String tourDate = request.getParameter("tourDate");
+		int rows = db.createTour(tourName, tourDescription, tourDetailed, tourCost, tourSlots, category, tourPicture, tourDate);
 		if(rows == 0) {
 			String url = "CA2/createTourPage.jsp?code=fail";
 			RequestDispatcher rd = request.getRequestDispatcher(url);

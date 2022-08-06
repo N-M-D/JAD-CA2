@@ -8,7 +8,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 public class TourDB {
-	public int createTour(String tourName, String tourDesc, String tourDetailed, float tourCost, int tourSlots, int tourType, String tourImg) {
+	public int createTour(String tourName, String tourDesc, String tourDetailed, float tourCost, int tourSlots, int tourType, String tourImg, String tourDate) {
 		int rows = 0;
 		try {
 			// Step1: Load JDBC Driver
@@ -17,7 +17,7 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			String sqlStr = "INSERT INTO tour (tourName, tourDescription, tourDetailed, tourCost, tourSlots, tourType, tourPicture) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String sqlStr = "INSERT INTO tour (tourName, tourDescription, tourDetailed, tourCost, tourSlots, tourType, tourPicture, tourDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, tourName);
 			pstmt.setString(2, tourDesc);
@@ -26,6 +26,7 @@ public class TourDB {
 			pstmt.setInt(5, tourSlots);
 			pstmt.setInt(6, tourType);
 			pstmt.setString(7, tourImg);
+			pstmt.setString(8, tourDate);
 			//pstmt.setString(2, password);
 			rows = pstmt.executeUpdate();
 			// Step 6: Process Result
@@ -64,6 +65,7 @@ public class TourDB {
 				tour.setTourSlots(rs.getInt("tourSlots"));
 				tour.setTourType(rs.getInt("tourType"));
 				tour.setTourImg(rs.getString("tourPicture"));
+				tour.setTourDate(rs.getString("tourDate"));
 				tourList.add(tour);
 			}
 			// Step 7: Close connection
@@ -97,6 +99,7 @@ public class TourDB {
 				tour.setTourSlots(rs.getInt("tourSlots"));
 				tour.setTourType(rs.getInt("tourType"));
 				tour.setTourImg(rs.getString("tourPicture"));
+				tour.setTourDate(rs.getString("tourDate"));
 			}
 			// Step 7: Close connection
 			conn.close();
@@ -127,6 +130,8 @@ public class TourDB {
 				tour.setTourName(rs.getString("tourName"));
 				tour.setTourDescription(rs.getString("tourDescription"));
 				tour.setTourDeatiled(rs.getString("tourDetailed"));
+				tour.setTourCost(rs.getFloat("tourCost"));
+				tour.setTourDate(rs.getString("tourDate"));
 				tourList.add(tour);
 			}
 			// Step 7: Close connection
@@ -138,7 +143,7 @@ public class TourDB {
 		return tourList;
 	}
 	
-	public int updateTour(int tourID, String tourName, String tourDesc, String tourDetailed, float tourCost, int tourSlots, int tourType, String tourImg) {
+	public int updateTour(int tourID, String tourName, String tourDesc, String tourDetailed, float tourCost, int tourSlots, int tourType, String tourImg, String tourDate) {
 		int rows = 0;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -146,7 +151,7 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			String sqlStr = "UPDATE tour SET tourName=?, tourDescription=?, tourDetailed=?, tourCost=?, tourSlots=?, tourType=?, tourPicture=? WHERE tourID=?";
+			String sqlStr = "UPDATE tour SET tourName=?, tourDescription=?, tourDetailed=?, tourCost=?, tourSlots=?, tourType=?, tourPicture=?, tourDate=? WHERE tourID=?";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			pstmt.setString(1, tourName);
 			pstmt.setString(2, tourDesc);
@@ -155,7 +160,8 @@ public class TourDB {
 			pstmt.setInt(5, tourSlots);
 			pstmt.setInt(6, tourType);
 			pstmt.setString(7, tourImg);
-			pstmt.setInt(8, tourID);
+			pstmt.setString(8, tourDate);
+			pstmt.setInt(9, tourID);
 			//pstmt.setString(2, password);
 			rows = pstmt.executeUpdate();
 			// Step 6: Process Result
@@ -213,6 +219,7 @@ public class TourDB {
 				tour.setTourType(rs.getInt("tourType"));
 				tour.setTourImg(rs.getString("tourPicture"));
 				tour.setDate(rs.getString("date"));
+				tour.setTourDate(rs.getString("tourDate"));
 				tourList.add(tour);
 			}
 			// Step 7: Close connection
@@ -233,7 +240,7 @@ public class TourDB {
 			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
 			// Step 3: Establish connection to URL
 			Connection conn = DriverManager.getConnection(connURL);
-			String sqlStr = "select t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture, count(tu.useremail) as 'filled' from tour t inner join `tour-users` tu on t.tourID = tu.tourid group by t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture order by count(tu.useremail) desc";
+			String sqlStr = "select t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture, t.tourDate, count(tu.useremail) as 'filled' from tour t inner join `tour-users` tu on t.tourID = tu.tourid group by t.tourID, t.tourName, t.tourDescription, t.tourDetailed, t.tourCost, t.tourSlots, t.tourType, t.tourPicture order by count(tu.useremail) desc";
 			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
 			ResultSet rs = pstmt.executeQuery();
 			// Step 6: Process Result
@@ -248,6 +255,7 @@ public class TourDB {
 				tour.setTourType(rs.getInt("tourType"));
 				tour.setTourImg(rs.getString("tourPicture"));
 				tour.setSlotsFilled(rs.getInt("filled"));
+				tour.setTourDate(rs.getString("tourDate"));
 				tourList.add(tour);
 			}
 			// Step 7: Close connection
