@@ -2,6 +2,15 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="toursDBAccess.*" %>
 <%@ page import="java.util.*" %>
+<%
+	String role = (String)session.getAttribute("role");
+	if(role != null){
+		if(!role.equals("admin")){
+			String url = request.getContextPath() + "/CA2/index.jsp";
+			response.sendRedirect(url);
+		}
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>

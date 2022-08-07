@@ -6,7 +6,7 @@
 <%
 	String role = (String)session.getAttribute("role");
 	if(role != null){
-		if(role != "admin"){
+		if(!role.equals("admin")){
 			String url = request.getContextPath() + "/CA2/index.jsp";
 			response.sendRedirect(url);
 		}

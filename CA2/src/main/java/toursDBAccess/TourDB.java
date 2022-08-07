@@ -145,6 +145,42 @@ public class TourDB {
 		return tourList;
 	}
 	
+	public ArrayList<Tour> getToursByPrice() {
+		ArrayList<Tour> tourList = new ArrayList<Tour>();
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			String sqlStr = "SELECT * FROM tour order by tourCost asc";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			//pstmt.setString(2, password);
+			ResultSet rs = pstmt.executeQuery();
+			// Step 6: Process Result
+			while(rs.next()) {
+				Tour tour = new Tour();
+				tour.setTourID(rs.getInt("tourID"));
+				tour.setTourName(rs.getString("tourName"));
+				tour.setTourDescription(rs.getString("tourDescription"));
+				tour.setTourDeatiled(rs.getString("tourDetailed"));
+				tour.setTourCost(rs.getFloat("tourCost"));
+				tour.setTourSlots(rs.getInt("tourSlots"));
+				tour.setTourType(rs.getInt("tourType"));
+				tour.setTourImg(rs.getString("tourPicture"));
+				tour.setTourDate(rs.getString("tourDate"));
+				tourList.add(tour);
+			}
+			// Step 7: Close connection
+			conn.close();
+		} 
+		catch (Exception e) {
+			System.out.println("Error :" + e);
+		}
+		return tourList;
+	}
+	
 	public int updateTour(int tourID, String tourName, String tourDesc, String tourDetailed, float tourCost, int tourSlots, int tourType, String tourImg, String tourDate) {
 		int rows = 0;
 		try {

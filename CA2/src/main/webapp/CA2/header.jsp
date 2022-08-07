@@ -8,7 +8,7 @@
 	</div>
 	<ul>
 		<li><a href="<%=request.getContextPath()%>/CA2/index.jsp">Home</a>
-		<li><a href="<%=request.getContextPath()%>/CA2/tour.jsp">Tours</a></li>
+		<li><a href="<%=request.getContextPath()%>/CA2/tours.jsp">Tours</a></li>
 		<% 
 			String uid = (String) session.getAttribute("email");
 			if(uid == null){

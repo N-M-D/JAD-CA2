@@ -5,6 +5,15 @@
 <%@ page import="categoriesDBAccess.*" %>
 <%@ page import="java.util.*" %>
 <%
+	String role = (String)session.getAttribute("role");
+	if(role != null){
+		if(!role.equals("admin")){
+			String url = request.getContextPath() + "/CA2/index.jsp";
+			response.sendRedirect(url);
+		}
+	}
+%>
+<%
 	String tourid = request.getParameter("tourID");
 	int tourID = 0;
 	if(tourid == null){
