@@ -161,7 +161,7 @@ form input, textarea, select {
 				<label>Tour Price($): </label>
 			</div>
 			<div>
-				<input value='><%=tour.getTourCost() %>' name='tourCost' type='text'>
+				<input value='<%=tour.getTourCost() %>' name='tourCost' type='text'>
 			</div>
 			<div>
 				<label>Tour Description: </label>
