@@ -106,7 +106,7 @@
 				if (tourPic == null || tourPic.equals("")){
 					tourPic = request.getContextPath() + "/CA2/img/default_tour_img.jpg";
 				}
-				out.print("<a class='tourCard' href='" + request.getContextPath() +"/CA2/viewTourDetailsAdmin.jsp?tourID=" + tour.getTourID() + "'>");
+				out.print("<a class='tourCard' href='" + request.getContextPath() +"/CA2/viewTourDetails.jsp?tourID=" + tour.getTourID() + "'>");
 				out.print("<img src='" + tourPic + "' class='tourPic'>");
 				out.print("<h2>" + tour.getTourName() + "</h2>");
 				out.print("<p>" + tour.getTourDescription() + "</p>");
@@ -124,7 +124,7 @@
 			if (tourPic == null || tourPic.equals("")){
 				tourPic = request.getContextPath() + "/CA2/img/default_tour_img.jpg";
 			}
-			out.print("<a class='tourCard' href='" + request.getContextPath() +"/CA2/viewTourDetailsAdmin.jsp?tourID=" + tour.getTourID() + "'>");
+			out.print("<a class='tourCard' href='" + request.getContextPath() +"/CA2/viewTourDetails.jsp?tourID=" + tour.getTourID() + "'>");
 			out.print("<img src='" + tourPic + "' class='tourPic'>");
 			out.print("<h2>" + tour.getTourName() + "</h2>");
 			out.print("<p>" + tour.getTourDescription() + "</p>");

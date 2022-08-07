@@ -129,10 +129,14 @@ public class TourDB {
 			// Step 6: Process Result
 			while(rs.next()) {
 				Tour tour = new Tour();
+				tour.setTourID(rs.getInt("tourID"));
 				tour.setTourName(rs.getString("tourName"));
 				tour.setTourDescription(rs.getString("tourDescription"));
 				tour.setTourDeatiled(rs.getString("tourDetailed"));
 				tour.setTourCost(rs.getFloat("tourCost"));
+				tour.setTourSlots(rs.getInt("tourSlots"));
+				tour.setTourType(rs.getInt("tourType"));
+				tour.setTourImg(rs.getString("tourPicture"));
 				tour.setTourDate(rs.getString("tourDate"));
 				tourList.add(tour);
 			}
@@ -304,6 +308,34 @@ public class TourDB {
 			System.out.println("Error :" + e);
 		}
 		return tourList;
+	}
+	
+	public int bookTour(String email, int tourID) {
+		int rows = 0;
+		try {
+			// Step1: Load JDBC Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// Step 2: Define Connection URL
+			String connURL ="jdbc:mysql://localhost/jad_ca1?user=root&password=170304Cty&serverTimezone=UTC";
+			// Step 3: Establish connection to URL
+			Connection conn = DriverManager.getConnection(connURL);
+			String sqlStr = "INSERT INTO `tour-users` (tourid, useremail, date) VALUES(?, ?, current_date())";
+			PreparedStatement pstmt = conn.prepareStatement(sqlStr);
+			pstmt.setInt(1, tourID);
+			pstmt.setString(2, email);
+			//pstmt.setString(2, password);
+			rows = pstmt.executeUpdate();
+			// Step 6: Process Result
+			// Step 7: Close connection
+			conn.close();
+		} 
+		catch(SQLIntegrityConstraintViolationException e){
+			System.out.println("Error :");
+		}
+		catch (Exception e) {
+			System.out.println("Error :" + e);
+		}
+		return rows;
 	}
 }
 
